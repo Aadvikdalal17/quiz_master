@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Add Subject - Quiz Master{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Add New Subject</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('admin.add_subject') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Subject Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="icon" class="form-label">Icon Class (Optional)</label>
+                        <input type="text" class="form-control" id="icon" name="icon" placeholder="e.g., bi-book">
+                        <div class="form-text">Enter Bootstrap icon class name</div>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="active" name="active" checked>
+                        <label class="form-check-label" for="active">Active</label>
+                    </div>
+                    <div class="text-end">
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Add Subject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

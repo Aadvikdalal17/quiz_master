@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard - Quiz Master{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>My Dashboard</h2>
+            <div>
+                <a href="{{ url_for('quiz.browse') }}" class="btn btn-primary">Find New Quizzes</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Quizzes Completed</h5>
+                <h2 class="display-4">{{ stats.completed_quizzes }}</h2>
+                <p class="card-text">Keep learning and improving!</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Average Score</h5>
+                <h2 class="display-4">{{ stats.average_score }}%</h2>
+                <p class="card-text">Your performance across all quizzes</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Achievement Points</h5>
+                <h2 class="display-4">{{ stats.points }}</h2>
+                <p class="card-text">Your current ranking: {{ stats.rank }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_quizzes %}
+                    <div class="list-group">
+                        {% for quiz in recent_quizzes %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ quiz.title }}</h6>
+                                <small class="text-muted">{{ quiz.date.strftime('%d %b, %Y') }}</small>
+                            </div>
+                            <p class="mb-1">Score: {{ quiz.score }}%</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ quiz.subject }}</small>
+                                <a href="{{ url_for('quiz.results', id=quiz.id) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="mb-0">You haven't completed any quizzes yet.</p>
+                        <a href="{{ url_for('quiz.browse') }}" class="btn btn-primary mt-3">Find Quizzes to Take</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h5 class="mb-0">Your Achievements</h5>
+            </div>
+            <div class="card-body">
+                {% if achievements %}
+                    <div class="row g-3">
+                        {% for achievement in achievements %}
+                        <div class="col-6">
+                            <div class="card h-100 {% if not achievement.unlocked %}bg-light text-muted{% endif %}">
+                                <div class="card-body text-center p-3">
+                                    <div class="mb-2">
+                                        <i class="bi {{ achievement.icon }} {% if achievement.unlocked %}text-success{% else %}text-secondary{% endif %} fs-1"></i>
+                                    </div>
+                                    <h6 class="card-title mb-1">{{ achievement.title }}</h6>
+                                    <p class="card-text small">{{ achievement.description }}</p>
+                                    {% if achievement.unlocked %}
+                                        <span class="badge bg-success">Unlocked</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Locked</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p>Complete quizzes to unlock achievements!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Recommended Quizzes</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% if recommended_quizzes %}
+                        {% for quiz in recommended_quizzes %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header {% if quiz.difficulty == 'easy' %}bg-success{% elif quiz.difficulty == 'medium' %}bg-warning{% else %}bg-danger{% endif %} text-white">
+                                    {{ quiz.difficulty|capitalize }}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ quiz.title }}</h5>
+                                    <p class="card-text">{{ quiz.description }}</p>
+                                </div>
+                                <div class="card-footer bg-white">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">{{ quiz.subject }} • {{ quiz.questions }} questions</small>
+                                        <a href="{{ url_for('quiz.start', id=quiz.id) }}" class="btn btn-sm btn-outline-primary">Start Quiz</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12 text-center py-4">
+                            <p>No recommended quizzes at this time.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

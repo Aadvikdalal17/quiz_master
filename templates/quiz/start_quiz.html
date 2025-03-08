@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}{{ quiz.title }} - Quiz Master{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('quiz.browse') }}">Quizzes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ quiz.title }}</li>
+            </ol>
+        </nav>
+        
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{{ quiz.title }}</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <p class="mb-0">{{ quiz.description }}</p>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded-circle p-3 me-3">
+                                <i class="bi bi-question-circle fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Questions</h6>
+                                <p class="mb-0 text-muted">{{ quiz.total_questions }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded-circle p-3 me-3">
+                                <i class="bi bi-clock fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Time Limit</h6>
+                                <p class="mb-0 text-muted">{{ quiz.time_limit }} minutes</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-light rounded-circle p-3 me-3">
+                                <i class="bi bi-trophy fs-4"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Passing Score</h6>
+                                <p class="mb-0 text-muted">{{ quiz.passing_score }}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-light p-3 rounded mb-4">
+                    <h5 class="mb-3">Quiz Information</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <strong>Subject:</strong> {{ quiz.subject }}
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <strong>Chapter:</strong> {{ quiz.chapter }}
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <strong>Difficulty:</strong> 
+                            <span class="badge {% if quiz.difficulty == 'easy' %}bg-success{% elif quiz.difficulty == 'medium' %}bg-warning{% else %}bg-danger{% endif %}">
+                                {{ quiz.difficulty|capitalize }}
+                            </span>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <strong>Times Taken:</strong> {{ quiz.times_taken }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-light p-3 rounded mb-4">
+                    <h5 class="mb-3">Instructions</h5>
+                    <ul>
+                        <li>Read each question carefully before answering.</li>
+                        <li>You have {{ quiz.time_limit }} minutes to complete this quiz.</li>
+                        <li>You need {{ quiz.passing_score }}% to pass this quiz.</li>
+                        <li>Once you start, you cannot pause the timer.</li>
+                        <li>Click the "Submit Quiz" button when you're finished.</li>
+                    </ul>
+                </div>
+                
+                <form action="{{ url_for('quiz.take', id=quiz.id) }}" method="post">
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="agree" name="agree" required>
+                        <label class="form-check-label" for="agree">
+                            I understand the instructions and I'm ready to begin.
+                        </label>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Start Quiz</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

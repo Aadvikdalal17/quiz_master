@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Results{% endblock %}
+
+{% block content %}
+<div class="container quiz-result-container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="text-center">Quiz Results</h2>
+        </div>
+        <div class="card-body">
+            <div class="result-summary text-center mb-4">
+                <h3>{{ quiz.title }}</h3>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span class="score-value">{{ score }}%</span>
+                    </div>
+                </div>
+                <p class="mt-3">
+                    You answered <strong>{{ correct_answers }}</strong> out of <strong>{{ total_questions }}</strong> questions correctly.
+                </p>
+                <div class="result-message mt-2">
+                    {% if score >= 80 %}
+                        <div class="alert alert-success">
+                            <h4>Excellent work!</h4>
+                            <p>You've mastered this subject. Keep up the great work!</p>
+                        </div>
+                    {% elif score >= 60 %}
+                        <div class="alert alert-info">
+                            <h4>Good job!</h4>
+                            <p>You have a solid understanding, but there's still room for improvement.</p>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <h4>You can do better!</h4>
+                            <p>We recommend reviewing this material and trying again.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="detailed-results mt-5">
+                <h4 class="text-center mb-4">Detailed Review</h4>
+                {% for question in questions %}
+                <div class="question-review mb-4 p-3 {% if question.is_correct %}correct-answer{% else %}incorrect-answer{% endif %}">
+                    <div class="question-number">Question {{ loop.index }}</div>
+                    <div class="question-text">{{ question.text }}</div>
+                    
+                    <div class="answer-details mt-2">
+                        <div class="your-answer">
+                            <strong>Your answer:</strong> {{ question.user_answer }}
+                            {% if question.is_correct %}
+                                <i class="fas fa-check-circle text-success"></i>
+                            {% else %}
+                                <i class="fas fa-times-circle text-danger"></i>
+                            {% endif %}
+                        </div>
+                        
+                        {% if not question.is_correct %}
+                        <div class="correct-answer mt-2">
+                            <strong>Correct answer:</strong> {{ question.correct_answer }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if question.explanation %}
+                        <div class="explanation mt-2">
+                            <strong>Explanation:</strong> {{ question.explanation }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="action-buttons mt-4 text-center">
+                <a href="{{ url_for('quiz.start_quiz', quiz_id=quiz.id) }}" class="btn btn-primary">Retry Quiz</a>
+                <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                <button class="btn btn-success" id="downloadCertificate">Download Certificate</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quiz_result.js') }}"></script>
+{% endblock %}

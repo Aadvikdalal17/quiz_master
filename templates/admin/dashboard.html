@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Quiz Master{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Admin Dashboard</h2>
+            <div>
+                <a href="{{ url_for('admin.add_subject') }}" class="btn btn-success me-2">Add Subject</a>
+                <a href="{{ url_for('admin.add_chapter') }}" class="btn btn-success me-2">Add Chapter</a>
+                <a href="{{ url_for('admin.add_quiz') }}" class="btn btn-success">Add Quiz</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <h2 class="display-4">{{ stats.total_users }}</h2>
+                <p class="card-text">Registered users on the platform</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Quizzes</h5>
+                <h2 class="display-4">{{ stats.total_quizzes }}</h2>
+                <p class="card-text">Available quizzes across all subjects</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Quizzes Taken</h5>
+                <h2 class="display-4">{{ stats.quizzes_taken }}</h2>
+                <p class="card-text">Total quiz attempts by users</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Users</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in recent_users %}
+                            <tr>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <a href="#" class="btn btn-sm btn-outline-primary">View All Users</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Recent Quizzes</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Subject</th>
+                                <th>Questions</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for quiz in recent_quizzes %}
+                            <tr>
+                                <td>{{ quiz.title }}</td>
+                                <td>{{ quiz.subject.name }}</td>
+                                <td>{{ quiz.questions|length }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <a href="#" class="btn btn-sm btn-outline-primary">View All Quizzes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Subject Management</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Subject Name</th>
+                                <th>Chapters</th>
+                                <th>Quizzes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.name }}</td>
+                                <td>{{ subject.chapters|length }}</td>
+                                <td>{{ subject.quizzes|length }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                                    <a href="#" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
