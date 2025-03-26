@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database import db
 from models.quiz import Quiz
 from models.score import Score

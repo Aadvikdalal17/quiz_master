@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
 {% block title %}Login - Quiz Master{% endblock %}
-
 {% block content %}
 <div class="row">
     <div class="col-md-6 offset-md-3">
@@ -25,7 +23,11 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
                     <div class="text-center">
-                        <a href="{{ url_for('user.reset_password_request') }}" class="text-decoration-none">Forgot your password?</a>
+                        <!-- Option 1: Comment out the problematic link -->
+                        {# <a href="{{ url_for('user.reset_password_request') }}" class="text-decoration-none">Forgot your password?</a> #}
+                        
+                        <!-- Option 2: Replace with a placeholder link -->
+                        <a href="#" class="text-decoration-none">Forgot your password?</a>
                     </div>
                 </form>
             </div>

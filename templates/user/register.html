@@ -1,76 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}Register - Quiz Master{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-md-6 offset-md-3">
-        <div class="card shadow">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Create Your Account</h4>
+                <h4 class="mb-0">Create an Account</h4>
             </div>
-            <div class="card-body p-4">
-                <form method="post" action="{{ url_for('user.register') }}">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('user.register') }}">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
+                        <label for="email" class="form-label">Email Address</label>
                         <input type="email" class="form-control" id="email" name="email" required>
-                        <div class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required minlength="8">
-                        <div class="form-text">Must be at least 8 characters long.</div>
+                        <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <div class="mb-3">
-                        <label for="password_confirm" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="password_confirm" name="password_confirm" required minlength="8">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
-                        <label class="form-check-label" for="terms">I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a></label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Register</button>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Create Account</button>
                 </form>
             </div>
-            <div class="card-footer text-center bg-light">
-                <p class="mb-0">Already have an account? <a href="{{ url_for('user.login') }}" class="text-decoration-none">Login</a></p>
+            <div class="card-footer text-center">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('user.login') }}">Login here</a></p>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
-<!-- Terms and Conditions Modal -->
-<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6>1. Acceptance of Terms</h6>
-                <p>By registering for Quiz Master, you agree to be bound by these Terms and Conditions.</p>
-                
-                <h6>2. User Accounts</h6>
-                <p>You are responsible for maintaining the confidentiality of your account and password.</p>
-                
-                <h6>3. Privacy Policy</h6>
-                <p>Your use of Quiz Master is also governed by our Privacy Policy.</p>
-                
-                <h6>4. Content</h6>
-                <p>All content provided on Quiz Master is for educational purposes only.</p>
-                
-                <h6>5. Governing Law</h6>
-                <p>These Terms shall be governed by and construed in accordance with applicable laws.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
-            </div>
-        </div>
-    </div>
-</div>
+{% block extra_js %}
+<script>
+    // Client-side validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm_password');
+        
+        form.addEventListener('submit', function(event) {
+            if (password.value !== confirmPassword.value) {
+                event.preventDefault();
+                alert('Passwords do not match.');
+            }
+        });
+    });
+</script>
 {% endblock %}
