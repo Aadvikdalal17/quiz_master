@@ -1,0 +1,28 @@
+# Python Virtual Environment
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Database
+*.db
+*.sqlite3
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Flask instance folder
+instance/
+
+# Migrations (optional - depends on your preference)
+migrations/
